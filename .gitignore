@@ -1,0 +1,7 @@
+# code coverage
+lcov.info
+coverage.json
+
+# output folders
+bin
+obj
