@@ -11,7 +11,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
         private TimeSpan _start;
         private TimeSpan _stop;
 
-        public class A_new_range : TimeRangeTests
+        public class A_valid_range : TimeRangeTests
         {
             [Fact]
             public void starts_at_provided_time()
@@ -28,17 +28,23 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
                 Assert.Equal(_stop, _range.Stop);
             }
+        }
 
+        public class A_range_that_starts_after_it_ends : TimeRangeTests
+        {
             [Fact]
-            public void cannot_stop_before_it_starts()
+            public void throws_an_exception()
             {
                 var ex = Record.Exception(() => TimeRangeWith(Time("10:00"), Time("08:00")));
 
                 Assert.IsType<StopIsNotAfterStart>(ex);
             }
+        }
 
+        public class A_range_that_starts_at_the_same_time_it_ends : TimeRangeTests
+        {
             [Fact]
-            public void cannot_stop_at_the_time_it_starts()
+            public void throws_an_exception()
             {
                 var ex = Record.Exception(() => TimeRangeWith(Time("10:00"), Time("10:00")));
 

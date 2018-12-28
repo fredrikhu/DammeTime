@@ -14,7 +14,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
             [Fact]
             public void has_same_order_number_as_provided()
             {
-                RegistrationWith(OrderNumber("KN213 12345"), TimeRange());
+                RegistrationWith(OrderNumber("KN213 12345"), TimeRange("08:00", "10:00"));
 
                 Assert.Equal(OrderNumber("KN213 12345"), _registration.OrderNumber);
             }
