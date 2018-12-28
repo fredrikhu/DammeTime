@@ -11,6 +11,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="mediatr" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -18,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DammeTime.Core\DammeTime.Core.csproj" />
+    <ProjectReference Include="..\DammeTime.Persistence\DammeTime.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
