@@ -1,12 +1,14 @@
+using DammeTime.Core.TimeReporting.Events;
 using MediatR;
 
 namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
 {
-    public class AddTimeRegistrationCommand
+    // TODO: Generic command instead?
+    public class AddTimeRegistrationCommand : IRequest<Unit>
     {
-        public AddTimeRegistrationCommand(AddTimeRegistrationEvent addTimeRegistrationEvent)
+        public AddTimeRegistrationCommand(AddTimeRegistrationEvent @event)
         {
-            Event = addTimeRegistrationEvent;
+            Event = @event;
         }
 
         public AddTimeRegistrationEvent Event { get; }

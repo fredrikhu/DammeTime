@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using DammeTime.Core.TimeReporting.Domain.Exceptions;
-
 namespace DammeTime.Core.TimeReporting.Domain
 {
+    // TODO: How to add Date?
     public class TimeRegistration
     {
         public OrderNumber OrderNumber { get; }
