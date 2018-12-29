@@ -9,7 +9,7 @@ using Xunit;
     {
         private Exception _sut;
 
-        [Theory]
+        [Theory, UnitTest]
         [MemberData(nameof(AllExceptions))]
         public void Default_Constructor_Has_Default_Message(Type type)
         {
@@ -18,7 +18,7 @@ using Xunit;
             Assert.Equal($"Exception of type '{_sut.GetType().FullName}' was thrown.", _sut.Message);
         }
 
-        [Theory]
+        [Theory, UnitTest]
         [MemberData(nameof(AllExceptions))]
         public void Default_Constructor_Has_No_Inner_Exception(Type type)
         {
@@ -33,7 +33,7 @@ using Xunit;
             _sut = (Exception)ctor.Invoke(new object[0]);
         }
 
-        [Theory]
+        [Theory, UnitTest]
         [MemberData(nameof(AllExceptions))]
         public void Constructor_With_Message_Has_Provided_Message(Type type)
         {
@@ -44,7 +44,7 @@ using Xunit;
             Assert.Equal(message, _sut.Message);
         }
 
-        [Theory]
+        [Theory, UnitTest]
         [MemberData(nameof(AllExceptions))]
         public void Constructor_With_Message_Has_No_Inner_Exception(Type type)
         {
@@ -60,7 +60,7 @@ using Xunit;
             _sut = (Exception)ctor.Invoke(new object[] { message });
         }
 
-        [Theory]
+        [Theory, UnitTest]
         [MemberData(nameof(AllExceptions))]
         public void Constructor_With_Message_And_Exception_Has_Provided_Message(Type type)
         {
@@ -72,7 +72,7 @@ using Xunit;
             Assert.Equal(message, _sut.Message);
         }
 
-        [Theory]
+        [Theory, UnitTest]
         [MemberData(nameof(AllExceptions))]
         public void Constructor_With_Message_And_Exception_Has_Provided_Inner_Exception(Type type)
         {

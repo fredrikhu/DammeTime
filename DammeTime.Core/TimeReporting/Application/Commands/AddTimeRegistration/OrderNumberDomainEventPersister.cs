@@ -36,17 +36,15 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
 
         private void AddOrderNumber()
         {
-            _orderNumber = _context.AddOrderNumberDomainEvents.SingleOrDefault(x => x.OrderNumber == _registration.OrderNumber);
-            if (_orderNumber != null) return;
-
-            _orderNumber = new AddOrderNumberDomainEvent
-            {
-                OrderNumber = _registration.OrderNumber
-            };
-
-            _context.AddOrderNumberDomainEvents.Add(_orderNumber);
+            _orderNumber = _context.AddOrderNumberDomainEvents.SingleOrAdd(
+                x => x.OrderNumber == _registration.OrderNumber,
+                () => new AddOrderNumberDomainEvent { OrderNumber = _registration.OrderNumber }
+            );
         }
 
+        // TODO: Not like this, can only catch one validation exception which is not good enough for an UI.
+        // TODO: Also only protects invariants for this domain. How to solve?
+        // TODO: Also how to protect from several registrations overlapping?
         private void ValidateDomainEvent()
         {
             var timeRegistration = new TimeRegistration(new OrderNumber(_registration.OrderNumber), new TimeRange(_registration.Start, _registration.Stop));

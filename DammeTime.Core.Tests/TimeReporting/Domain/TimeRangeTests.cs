@@ -13,7 +13,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
         public class A_valid_range : TimeRangeTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void starts_at_provided_time()
             {
                 TimeRangeWith(Time("08:00"), Time("10:00"));
@@ -21,7 +21,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
                 Assert.Equal(_start, _range.Start);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public void stops_at_provided_time()
             {
                 TimeRangeWith(Time("08:00"), Time("10:00"));
@@ -32,7 +32,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
         public class A_range_that_starts_after_it_ends : TimeRangeTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception()
             {
                 var ex = Record.Exception(() => TimeRangeWith(Time("10:00"), Time("08:00")));
@@ -43,7 +43,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
         public class A_range_that_starts_at_the_same_time_it_ends : TimeRangeTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception()
             {
                 var ex = Record.Exception(() => TimeRangeWith(Time("10:00"), Time("10:00")));
@@ -54,7 +54,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
         public class Any_range : TimeRangeTests
         {
-            [Theory]
+            [Theory, UnitTest]
             [InlineData("07:00", "11:30", 4.5)]
             [InlineData("10:00", "13:15", 3.25)]
             public void calculates_duration_as_time_between_start_and_stop_in_hours(
@@ -67,7 +67,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
                 Assert.Equal(duration, _range.Duration);
             }
 
-            [Theory]
+            [Theory, UnitTest]
             [InlineData("07:00", "11:30")]
             [InlineData("10:00", "13:15")]
             public void equals_another_range_with_the_same_start_and_stop_time(
@@ -80,7 +80,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
                 Assert.Equal(_range, other);
             }
 
-            [Theory]
+            [Theory, UnitTest]
             [InlineData("06:00", "07:00", "11:30")]
             [InlineData("06:00", "10:00", "13:15")]
             public void does_not_equal_another_range_if_the_start_time_is_different(
@@ -94,7 +94,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
                 Assert.NotEqual(_range, other);
             }
 
-            [Theory]
+            [Theory, UnitTest]
             [InlineData("07:00", "11:30", "10:00")]
             [InlineData("10:00", "13:15", "11:00")]
             public void does_not_equal_another_range_if_the_stop_time_is_different(

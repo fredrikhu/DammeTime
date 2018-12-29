@@ -24,7 +24,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
 
         public class Any_input_event : AddTimeRegistrationHandlerTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public async void is_saved_with_the_same_id_as_provided()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -32,7 +32,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Equal(ExpectedInputEvent.Id, ActualInputEvent.Id);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void is_saved_with_the_same_start_time_as_provided()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -40,7 +40,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Equal(ExpectedInputEvent.Start, ActualInputEvent.Start);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void is_saved_with_the_same_duration_as_provided()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -51,7 +51,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
 
         public class An_input_event_with_a_new_order_number : AddTimeRegistrationHandlerTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public async void adds_the_new_order_number()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -59,7 +59,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Equal(ExpectedInputEvent.OrderNumber, ActualOrderNumberDomainEvent.OrderNumber);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void saves_a_domain_event_with_same_order_number()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -70,7 +70,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
 
         public class An_input_event_with_a_pre_existing_order_number : AddTimeRegistrationHandlerTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public async void does_not_add_a_new_order_number()
             {
                 AddOrderNumberOfCommand();
@@ -80,7 +80,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Equal(1, _context.AddOrderNumberDomainEvents.Count(x => x.OrderNumber == _command.Event.OrderNumber));
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void saves_a_domain_event_with_same_order_number()
             {
                 AddOrderNumberOfCommand();
@@ -104,7 +104,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
 
         public class A_valid_input_event : AddTimeRegistrationHandlerTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public async void saves_a_domain_event_with_same_id()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -112,7 +112,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Equal(ExpectedInputEvent.Id, ActualDomainEvent.Id);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void saves_a_domain_event_with_same_start_time()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -120,7 +120,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Equal(ExpectedInputEvent.Start.TimeOfDay, ActualDomainEvent.Start);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void saves_a_domain_event_with_stop_time_as_start_time_plus_duration()
             {
                 await _handler.Handle(_command, CancellationToken.None);
@@ -131,7 +131,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
 
         public class An_input_event_with_invalid_range : AddTimeRegistrationHandlerTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public async void throws_an_exception()
             {
                 _command.Event.Duration = new TimeSpan(-5, 0, 0);
@@ -141,7 +141,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.IsType<StopIsNotAfterStart>(ex);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void does_not_save_domain_event()
             {
                 _command.Event.Duration = new TimeSpan(-5, 0, 0);
@@ -151,7 +151,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
                 Assert.Null(ActualDomainEvent);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public async void does_not_add_order_number()
             {
                 _command.Event.Duration = new TimeSpan(-5, 0, 0);

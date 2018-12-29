@@ -14,7 +14,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
         public class A_new_order_number : OrderNumberTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void contains_provided_reference()
             {
                 Assert.Equal("KN213 12345", _orderNumber.Reference);
@@ -23,7 +23,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
 
         public class Any_order_number : OrderNumberTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void equals_another_order_number_if_references_are_equal()
             {
                 var other = new OrderNumber("KN213 12345");
@@ -31,7 +31,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Domain
                 Assert.Equal(_orderNumber, other);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public void does_not_equal_another_order_number_if_references_are_not_equal()
             {
                 var other = new OrderNumber("other");
