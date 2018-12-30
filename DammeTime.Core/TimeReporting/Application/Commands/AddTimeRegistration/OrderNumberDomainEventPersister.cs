@@ -1,8 +1,7 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
+using DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.Events;
 using DammeTime.Core.TimeReporting.Domain;
-using DammeTime.Core.TimeReporting.Events;
 using DammeTime.Core.TimeReporting.Persistence;
 
 namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration

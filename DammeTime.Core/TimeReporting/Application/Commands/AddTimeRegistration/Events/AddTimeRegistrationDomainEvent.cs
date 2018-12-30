@@ -1,6 +1,6 @@
 using System;
 
-namespace DammeTime.Core.TimeReporting.Events
+namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.Events
 {
     public class AddTimeRegistrationDomainEvent
     {
@@ -15,11 +15,11 @@ namespace DammeTime.Core.TimeReporting.Events
 
         }
 
-        public AddTimeRegistrationDomainEvent(AddTimeRegistrationEvent @event)
+        public AddTimeRegistrationDomainEvent(AddTimeRegistrationInputEvent @event)
         {
             Id = @event.Id;
             Start = @event.Start.TimeOfDay;
-            Stop = @event.Start.TimeOfDay.Add(@event.Duration);
+            Stop = @event.Stop;
             OrderNumber = @event.OrderNumber;
         }
     }

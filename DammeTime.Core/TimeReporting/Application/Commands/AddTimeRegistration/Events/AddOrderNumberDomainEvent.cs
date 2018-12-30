@@ -1,6 +1,6 @@
 using System;
 
-namespace DammeTime.Core.TimeReporting.Events
+namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.Events
 {
     public class AddOrderNumberDomainEvent
     {

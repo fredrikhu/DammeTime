@@ -1,4 +1,4 @@
-using DammeTime.Core.TimeReporting.Events;
+using DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.Events;
 using DammeTime.Core.TimeReporting.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ namespace DammeTime.Persistence
             : base(options)
         { }
 
-        public DbSet<AddTimeRegistrationEvent> TimeRegistrationEvents { get; set; }
+        public DbSet<AddTimeRegistrationInputEvent> TimeRegistrationEvents { get; set; }
         public DbSet<AddTimeRegistrationDomainEvent> TimeRegistrationDomainEvents { get; set; }
         public DbSet<AddOrderNumberDomainEvent> AddOrderNumberDomainEvents { get; set; }
 
