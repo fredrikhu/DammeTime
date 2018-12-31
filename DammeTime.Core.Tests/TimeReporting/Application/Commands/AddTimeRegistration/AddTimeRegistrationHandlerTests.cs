@@ -20,6 +20,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
         protected AddTimeRegistrationCommand _command;
         protected DammeTimeContext _context;
 
+        protected AddOrderNumberDomainEvent LatestOrderNumberDomainEvent => _context.AddOrderNumberDomainEvents.OrderByDescending(x => x.OrderNumber).FirstOrDefault();
         protected AddOrderNumberDomainEvent ActualOrderNumberDomainEvent => _context.AddOrderNumberDomainEvents.SingleOrDefault();
         protected AddTimeRegistrationDomainEvent ActualDomainEvent => _context.TimeRegistrationDomainEvents.SingleOrDefault();
         protected AddTimeRegistrationInputEvent ActualInputEvent => _context.TimeRegistrationEvents.Single();
@@ -90,13 +91,24 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
             }
 
             [Fact, UnitTest]
-            public async void saves_a_domain_event_with_same_order_number()
+            public async void saves_a_domain_event_with_same_order_number_id()
             {
                 AddOrderNumberOfCommand();
 
                 await _handler.Handle(_command, CancellationToken.None);
 
                 Assert.Equal(ActualOrderNumberDomainEvent.Id, ActualDomainEvent.OrderNumberId);
+            }
+
+            [Fact, UnitTest]
+            public async void saves_a_domain_event_with_latest_order_number_id()
+            {
+                AddOrderNumberOfCommand();
+                AddOrderNumberOfCommand();
+
+                await _handler.Handle(_command, CancellationToken.None);
+
+                Assert.Equal(LatestOrderNumberDomainEvent.Id, ActualDomainEvent.OrderNumberId);
             }
 
             private void AddOrderNumberOfCommand()

@@ -5,6 +5,7 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.
     public class AddOrderNumberDomainEvent
     {
         public Guid Id { get; set; }
+        public int EventOrder { get; set; }
         public string OrderNumber { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.Events;
 using DammeTime.Core.TimeReporting.Domain;
@@ -19,7 +20,6 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
         {
             var state = new State(registration);
 
-            ValidateDomainEvent(state);
             AddOrderNumber(state);
             AssociateRegistrationWithOrderNumber(state);
 
@@ -34,18 +34,11 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
 
         private void AddOrderNumber(State state)
         {
-            state.OrderNumber = _context.AddOrderNumberDomainEvents.SingleOrAdd(
+            state.OrderNumber = _context.AddOrderNumberDomainEvents.FirstOrAddDescending(
                 x => x.OrderNumber == state.Registration.OrderNumber,
-                () => new AddOrderNumberDomainEvent { OrderNumber = state.Registration.OrderNumber }
+                () => new AddOrderNumberDomainEvent { OrderNumber = state.Registration.OrderNumber },
+                x => x.EventOrder
             );
-        }
-
-        // TODO: Not like this, can only catch one validation exception which is not good enough for an UI.
-        // TODO: Also only protects invariants for this domain. How to solve?
-        // TODO: Also how to protect from several registrations overlapping?
-        private void ValidateDomainEvent(State state)
-        {
-            var timeRegistration = new TimeRegistration(new OrderNumber(state.Registration.OrderNumber), new TimeRange(state.Registration.Start.TimeOfDay, state.Registration.Stop));
         }
 
         private class State
