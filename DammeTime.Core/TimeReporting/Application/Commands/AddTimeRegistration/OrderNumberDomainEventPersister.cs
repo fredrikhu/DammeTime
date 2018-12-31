@@ -9,44 +9,54 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
     public class OrderNumberDomainEventPersister
     {
         private readonly ITimeReportingContext _context;
-        private readonly AddTimeRegistrationDomainEvent _registration;
-        private AddOrderNumberDomainEvent _orderNumber;
 
-        public OrderNumberDomainEventPersister(ITimeReportingContext context, AddTimeRegistrationDomainEvent registration)
+        public OrderNumberDomainEventPersister(ITimeReportingContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _registration = registration ?? throw new ArgumentNullException(nameof(registration));
         }
 
-        public async Task Persist()
+        public async Task Persist(AddTimeRegistrationDomainEvent registration)
         {
-            ValidateDomainEvent();
-            AddOrderNumber();
-            AssociateRegistrationWithOrderNumber();
+            var state = new State(registration);
 
-            _context.TimeRegistrationDomainEvents.Add(_registration);
+            ValidateDomainEvent(state);
+            AddOrderNumber(state);
+            AssociateRegistrationWithOrderNumber(state);
+
+            _context.TimeRegistrationDomainEvents.Add(state.Registration);
             await _context.SaveChangesAsync();
         }
 
-        private void AssociateRegistrationWithOrderNumber()
+        private void AssociateRegistrationWithOrderNumber(State state)
         {
-            _registration.OrderNumberId = _orderNumber.Id;
+            state.Registration.OrderNumberId = state.OrderNumber.Id;
         }
 
-        private void AddOrderNumber()
+        private void AddOrderNumber(State state)
         {
-            _orderNumber = _context.AddOrderNumberDomainEvents.SingleOrAdd(
-                x => x.OrderNumber == _registration.OrderNumber,
-                () => new AddOrderNumberDomainEvent { OrderNumber = _registration.OrderNumber }
+            state.OrderNumber = _context.AddOrderNumberDomainEvents.SingleOrAdd(
+                x => x.OrderNumber == state.Registration.OrderNumber,
+                () => new AddOrderNumberDomainEvent { OrderNumber = state.Registration.OrderNumber }
             );
         }
 
         // TODO: Not like this, can only catch one validation exception which is not good enough for an UI.
         // TODO: Also only protects invariants for this domain. How to solve?
         // TODO: Also how to protect from several registrations overlapping?
-        private void ValidateDomainEvent()
+        private void ValidateDomainEvent(State state)
         {
-            var timeRegistration = new TimeRegistration(new OrderNumber(_registration.OrderNumber), new TimeRange(_registration.Start, _registration.Stop));
+            var timeRegistration = new TimeRegistration(new OrderNumber(state.Registration.OrderNumber), new TimeRange(state.Registration.Start, state.Registration.Stop));
+        }
+
+        private class State
+        {
+            public AddTimeRegistrationDomainEvent Registration { get; }
+            public AddOrderNumberDomainEvent OrderNumber { get; set; }
+
+            public State(AddTimeRegistrationDomainEvent registration)
+            {
+                Registration = registration;
+            }
         }
     }
 }

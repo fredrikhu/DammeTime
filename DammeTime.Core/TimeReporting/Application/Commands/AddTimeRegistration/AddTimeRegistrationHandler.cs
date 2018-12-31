@@ -12,11 +12,16 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
     {
         private readonly ITimeReportingContext _context;
         private readonly RegistrationInputValidation _validation;
+        private readonly OrderNumberDomainEventPersister _persister;
 
-        public AddTimeRegistrationHandler(ITimeReportingContext context, RegistrationInputValidation validation)
+        public AddTimeRegistrationHandler(
+            ITimeReportingContext context,
+            RegistrationInputValidation validation,
+            OrderNumberDomainEventPersister persister)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _validation = validation ?? throw new ArgumentNullException(nameof(validation));
+            _persister = persister ?? throw new ArgumentNullException(nameof(persister));
         }
 
         public async Task<Unit> Handle(AddTimeRegistrationCommand command, CancellationToken cancellationToken)
@@ -37,8 +42,7 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
 
         private async Task SaveDomainEvent(AddTimeRegistrationInputEvent input)
         {
-            var persister = new OrderNumberDomainEventPersister(_context, new AddTimeRegistrationDomainEvent(input));
-            await persister.Persist();
+            await _persister.Persist(new AddTimeRegistrationDomainEvent(input));
         }
     }
 }

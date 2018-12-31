@@ -267,7 +267,10 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
         protected void Handler()
         {
             Context();
-            _handler = new AddTimeRegistrationHandler(_context, new RegistrationInputValidation());
+            _handler = new AddTimeRegistrationHandler(
+                _context,
+                new RegistrationInputValidation(),
+                new OrderNumberDomainEventPersister(_context));
         }
 
         protected void Context()
