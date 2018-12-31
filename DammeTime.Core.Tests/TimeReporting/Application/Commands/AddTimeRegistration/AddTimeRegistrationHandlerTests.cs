@@ -126,7 +126,7 @@ namespace DammeTime.Core.Tests.TimeReporting.Application.Commands.AddTimeRegistr
             {
                 await _handler.Handle(_command, CancellationToken.None);
 
-                Assert.Equal(ExpectedInputEvent.Start.TimeOfDay, ActualDomainEvent.Start);
+                Assert.Equal(ExpectedInputEvent.Start, ActualDomainEvent.Start);
             }
 
             [Fact, UnitTest]

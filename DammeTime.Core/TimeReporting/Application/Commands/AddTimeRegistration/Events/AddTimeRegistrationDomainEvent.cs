@@ -5,7 +5,7 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.
     public class AddTimeRegistrationDomainEvent
     {
         public Guid Id { get; set; }
-        public TimeSpan Start { get; set; }
+        public DateTimeOffset Start { get; set; }
         public TimeSpan Stop { get; set; }
         public string OrderNumber { get; set; }
         public Guid OrderNumberId { get; set; }
@@ -18,7 +18,7 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration.
         public AddTimeRegistrationDomainEvent(AddTimeRegistrationInputEvent @event)
         {
             Id = @event.Id;
-            Start = @event.Start.TimeOfDay;
+            Start = @event.Start;
             Stop = @event.Stop;
             OrderNumber = @event.OrderNumber;
         }

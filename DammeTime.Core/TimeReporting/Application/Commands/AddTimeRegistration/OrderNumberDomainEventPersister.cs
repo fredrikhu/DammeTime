@@ -45,7 +45,7 @@ namespace DammeTime.Core.TimeReporting.Application.Commands.AddTimeRegistration
         // TODO: Also how to protect from several registrations overlapping?
         private void ValidateDomainEvent(State state)
         {
-            var timeRegistration = new TimeRegistration(new OrderNumber(state.Registration.OrderNumber), new TimeRange(state.Registration.Start, state.Registration.Stop));
+            var timeRegistration = new TimeRegistration(new OrderNumber(state.Registration.OrderNumber), new TimeRange(state.Registration.Start.TimeOfDay, state.Registration.Stop));
         }
 
         private class State

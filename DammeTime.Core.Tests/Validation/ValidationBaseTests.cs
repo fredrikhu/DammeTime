@@ -15,7 +15,7 @@ namespace DammeTime.Core.Tests.Validation
 
         public class A_subject_with_no_errors : ValidationBaseTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void throws_no_exception()
             {
                 var subject = new DomainObject();
@@ -28,7 +28,7 @@ namespace DammeTime.Core.Tests.Validation
 
         public class A_subject_with_property_errors : ValidationBaseTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception_with_property_name()
             {
                 var subject = new DomainObject { Property = -5 };
@@ -38,7 +38,7 @@ namespace DammeTime.Core.Tests.Validation
                 Assert.Equal("Property", ex.Errors.Single().Property);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception_with_error_message()
             {
                 var subject = new DomainObject { Property = -5 };
@@ -51,7 +51,7 @@ namespace DammeTime.Core.Tests.Validation
 
         public class A_subject_with_entity_errors : ValidationBaseTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception_without_property_name()
             {
                 var subject = new DomainObject { Error = true };
@@ -61,7 +61,7 @@ namespace DammeTime.Core.Tests.Validation
                 Assert.Equal("", ex.Errors.Single().Property);
             }
 
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception_with_error_message()
             {
                 var subject = new DomainObject { Error = true };
@@ -74,7 +74,7 @@ namespace DammeTime.Core.Tests.Validation
 
         public class A_subject_with_entity_and_property_errors : ValidationBaseTests
         {
-            [Fact]
+            [Fact, UnitTest]
             public void throws_an_exception_with_both_kinds_of_errors()
             {
                 var subject = new DomainObject { Error = true, Property = -5 };
